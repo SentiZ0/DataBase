@@ -1,0 +1,28 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Welcome User</h2>
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <form method="post">
+        <label style="float: left" asp-for="Person.FirstName"></label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Wprowadź swoje imię" asp-for="Person.FirstName" />
+        <label style="float: left" asp-for="Person.LastName"></label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Wprowadź swoje nazwisko" asp-for="Person.LastName" />
+        <label style="float: left" asp-for="Person.BirthYear"></label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Podaj swój rok urodzenia" asp-for="Person.BirthYear" />
+        <button type="submit" class="btn btn-primary">Zatwierdź</button>
+        @if (Model.Person != null)
+        {
+            <div class="alert alert-primary" role="alert"> @Model.AlertMessage </div>
+        }
+        <span asp-validation-for="Person.FirstName" class="text-danger"></span><br />
+        <span asp-validation-for="Person.BirthYear" class="text-danger"></span>
+    </form>
+
+
+
+</div>

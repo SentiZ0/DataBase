@@ -1,0 +1,33 @@
+﻿@page
+@model DataBase.Pages.Saved_In_SessionModel
+@{
+}
+
+<link rel="stylesheet" href="~/css/StyleSheet.css" />
+<p>Dane w zapisane w sesji</p>
+@if (Model.Persons != null)
+{
+    <ul>
+        @foreach (var element in Model.Persons)
+        {
+            @if(element.LastName == null)
+            {
+                <li>
+                    <b>Dane: </b>@element.FirstName <br>
+                    <b>Rok urodzenia:</b> @element.BirthYear - @(element.LeapYear ? "Rok przestepny" : "To nie jest rok przestepny") <br>
+                    <b>Data wprowadzenia:</b> @element.DataUpdateTime
+                </li>
+            }
+            else
+            {
+                <li>
+                    <b>Dane:</b> @element.FirstName @element.LastName <br>
+                    <b>Rok urodzenia:</b> @element.BirthYear - @(element.LeapYear ? "Rok przestepny" : "To nie jest rok przestepny") <br>
+                    <b>Data wprowadzenia:</b> @element.DataUpdateTime
+                </li>
+            }
+
+    }
+    </ul>
+
+}
