@@ -8,23 +8,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBase.Data;
 using DataBase.Models;
+using DataBase.Services.Interfaces;
 
 namespace DataBase.Pages.People
 {
     public class IndexModel : PageModel
     {
-        private readonly DataBase.Data.PeopleContext _context;
+        private readonly IPersonService _personService;
 
-        public IndexModel(DataBase.Data.PeopleContext context)
+        public IndexModel(IPersonService personService)
         {
-            _context = context;
+            _personService = personService;
         }
 
         public IList<Person> Person { get;set; }
 
         public async Task OnGetAsync()
         {
-            Person = await _context.Person.OrderByDescending(a => a.DataUpdateTime).Take(20).ToListAsync();
+            Person = _personService.GetAllEntries();
         }
     }
 }

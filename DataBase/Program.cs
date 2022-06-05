@@ -1,4 +1,6 @@
 using DataBase.Data;
+using DataBase.Services;
+using DataBase.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<PeopleContext>(options => options.UseSqlServer(bui
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
+
+builder.Services.AddTransient<IPersonService, PersonService>();
 
 var app = builder.Build();
 

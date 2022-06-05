@@ -4,12 +4,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using DataBase.Data;
+using DataBase.Services.Interfaces;
 
 namespace DataBase.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly PeopleContext _context;
+
+        private readonly IPersonService _personService;
+
+        public IQueryable<Person> a { get; set; }
 
         public IList<Person> People { get; set; }
 
@@ -18,30 +22,17 @@ namespace DataBase.Pages
         [BindProperty]
         public Person Person { get; set; }
 
-        public IndexModel(PeopleContext context)
+        public IndexModel(IPersonService personService)
         {
-            _context = context;
+            _personService = personService;
         }
 
         public IActionResult OnPost()
         {
-            var dataList = new List<Person>();
-
-            var sessionData = HttpContext.Session.GetString("Data");
-            if (!string.IsNullOrEmpty(sessionData))
-            {
-                dataList = JsonConvert.DeserializeObject<List<Person>>(sessionData);
-            }
-
-            dataList.Add(Person);
-
             Person.CheckLeapYear();
             Person.DataUpdateTime = DateTime.Now;
 
-            HttpContext.Session.SetString("Data", JsonConvert.SerializeObject(dataList));
-
-            _context.Person.Add(Person);
-            _context.SaveChanges();
+            _personService.AddEntry(Person);
 
             if (!ModelState.IsValid)
             {
@@ -64,7 +55,7 @@ namespace DataBase.Pages
         }
         public void OnGet()
         {            
-            People = _context.Person.ToList();
+            People = _personService.GetAllEntries();
         }
     }
 }
